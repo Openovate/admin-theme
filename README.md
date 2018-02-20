@@ -1,2 +1,1 @@
-# cms-template
 # admin-theme
