@@ -530,7 +530,7 @@ jQuery(function($) {
         /**
          * Multirange
          */
-         $(window).on('multirange-field-init', function(e, target) {
+        $(window).on('multirange-field-init', function(e, target) {
             target = $(target);
 
             var params = {};
@@ -559,7 +559,79 @@ jQuery(function($) {
             });
 
             target.ionRangeSlider(params);
-         });
+        });
+
+        /**
+         * Date Field
+         */
+        $(window).on('date-field-init', function(e, target) {
+            $(target).daterangepicker({
+                singleDatePicker: true,
+                locale: {
+                    format: 'YYYY-MM-DD'
+                }
+            });
+
+        });
+
+        /**
+         * Time Field
+         */
+        $(window).on('time-field-init', function(e, target) {});
+
+        /**
+         * DateTime Field
+         */
+        $(window).on('datetime-field-init', function(e, target) {
+            $(target).daterangepicker({
+                timePicker: true,
+                timePickerSeconds: true,
+                singleDatePicker: true,
+                locale: {
+                    format: 'YYYY-MM-DD hh:mm:ss'
+                }
+            });
+        });
+
+        /**
+         * Date Range Field
+         */
+        $(window).on('date-range-field-init', function(e, target) {
+            $(target).daterangepicker({
+                locale: {
+                    format: 'YYYY-MM-DD'
+                },
+                ranges: {
+                   'Today': [moment(), moment()],
+                   'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                   'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                   'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                   'This Month': [moment().startOf('month'), moment().endOf('month')],
+                   'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }
+            });
+        });
+
+        /**
+         * DateTime Range Field
+         */
+        $(window).on('datetime-range-field-init', function(e, target) {
+            $(target).daterangepicker({
+                timePicker: true,
+                timePickerSeconds: true,
+                locale: {
+                    format: 'YYYY-MM-DD hh:mm:ss'
+                },
+                ranges: {
+                   'Today': [moment(), moment()],
+                   'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                   'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                   'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                   'This Month': [moment().startOf('month'), moment().endOf('month')],
+                   'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }
+            });
+        });
 
         /**
          * Direct CDN Upload
@@ -834,21 +906,13 @@ jQuery(function($) {
 
         $.extend({
             notify: function(message, type, timeout) {
-                type = type || 'info';
-
-                if(typeof timeout === 'undefined') {
-                    timeout = 3000;
+                if(type === 'danger') {
+                    type = 'error';
                 }
 
-                var template = '<div data-do="notify" data-timeout="{TIMEOUT}" class="notify notify-{TYPE}"><span class="message">{MESSAGE}</span></div>';
-
-                var notification = $(template
-                    .replace('{TYPE}', type)
-                    .replace('{MESSAGE}', message)
-                    .replace('{TIMEOUT}', timeout));
-
-                $(document.body).append(notification);
-                return notification.doon();
+                toastr[type](message, {
+                    timeOut: timeout
+                });
             }
         })
     })();
