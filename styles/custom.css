@@ -21,6 +21,10 @@ body {
     border-radius: 0;
 }
 
+.dropdown-menu {
+    border-radius: 0;
+}
+
 .nav-right {
     float: right;
 }
@@ -958,6 +962,35 @@ body {
 
 /* Head
 ------------------------------*/
+
+.head .nav-profile img {
+    margin: -14px 0px -10px;
+}
+
+.head .nav-notifications .dropdown-item {
+    padding: 10px 20px;
+}
+
+.head .nav-notifications .dropdown-item:nth-child(even) {
+    background-color: #E9ECEF;
+    border-bottom: 1px solid #CCCCCC;
+    border-top: 1px solid #CCCCCC;
+}
+
+.head .nav-notifications img {
+    float: left;
+    width: 30px;
+}
+
+.head .nav-notifications .notification-info {
+    display: block;
+    padding-left: 40px;
+}
+
+.head .nav-notifications .notification-time {
+    display: block;
+    font-size: 12px;
+}
 
 /* Foot
 ------------------------------*/
