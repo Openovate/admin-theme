@@ -688,6 +688,44 @@ select.form-control {
     color: #BBB888;
 }
 
+/* Field - File Field
+-----------------------------*/
+.file-field {
+    border: 1px solid #CCCCCC;
+    margin-top: 20px;
+}
+
+.file-field .file-field-preview {
+    text-align: center;
+}
+
+.file-field .file-field-preview-container {
+    position: relative;
+}
+
+.file-field .file-field-preview i {
+    font-size: 50px;
+}
+
+.file-field .file-field-extension {
+    background-color: #343434;
+    color: #FFFFFF;
+    display: block;
+    font-size: 11px;
+    font-weight: bold;
+    position: absolute;
+    top: 20px;
+    width: 100%;
+}
+
+.file-field .file-field-actions {
+    white-space: nowrap;
+}
+
+.file-field tfoot {
+    background-color: #E9ECEF;
+}
+
 /* Field - Tag Field
 -----------------------------*/
 .tag-field {

@@ -214,190 +214,6 @@ jQuery(function($) {
         });
 
         /**
-         * Image Field
-         * HTML config for single images
-         * data-do="image-field"
-         * data-name="profile_image"
-         * data-width="200"
-         * data-height="200"
-         * data-alt="Change this Photo"
-         *
-         * HTML config for multiple images
-         * data-do="image-field"
-         * data-name="profile_image"
-         * data-width="200"
-         * data-height="200"
-         * data-multiple="1"
-         * data-alt="Change this Photo"
-         *
-         * HTML config for single images / multiple sizes
-         * data-do="image-field"
-         * data-name="profile_image"
-         * data-width="0|200|100"
-         * data-height="0|200|100"
-         * data-label="original|small|large"
-         * data-display="large|small"
-         * data-alt="Change this Photo"
-         *
-         * HTML config for multiple images / multiple sizes
-         * data-do="image-field"
-         * data-name="profile_image"
-         * data-width="0|200|100"
-         * data-height="0|200|100"
-         * data-label="original|small|large"
-         * data-display="large"
-         * data-multiple="1"
-         * data-alt="Change this Photo"
-         */
-        $(window).on('image-field-init', function(e, target) {
-            //current
-            var container = $(target);
-
-            //get meta data
-
-            //for hidden fields
-            var name = container.attr('data-name');
-
-            //for file field
-            var multiple = container.attr('data-multiple');
-
-            //for image fields
-            var alt = container.attr('data-alt');
-            var classes = container.attr('data-class');
-
-            var width = parseInt(container.attr('data-width') || 0);
-            var height = parseInt(container.attr('data-height') || 0);
-
-            var widths = container.attr('data-width') || '0';
-            var heights = container.attr('data-height') || '0';
-            var labels = container.attr('data-label') || '';
-            var displays = container.attr('data-display') || '';
-
-            widths = widths.split('|');
-            heights = heights.split('|');
-            labels = labels.split('|');
-            displays = displays.split('|');
-
-            if(!displays[0].length) {
-                displays = false;
-            }
-
-            if(widths.length !== heights.length) {
-                throw 'Invalid Attributes. Width and Height counts are not the same.';
-            }
-
-            //make an image config
-            var config = [];
-            widths.forEach(function(width, i) {
-                var label = labels[i] || '' + i;
-
-                if(widths.length === 1
-                    && (
-                        typeof labels[i] === 'undefined'
-                        || !labels[i].length
-                    )
-                )
-                {
-                    label = false;
-                }
-
-                config.push({
-                    label: label,
-                    display: !displays || displays.indexOf(label) !== -1,
-                    width: parseInt(widths[i]),
-                    height: parseInt(heights[i])
-                });
-            });
-
-            //make a file
-            var file = $('<input type="file" />')
-                .attr('accept', 'image/png,image/jpg,image/jpeg,image/gif')
-                .addClass('hide')
-                .appendTo(target);
-
-            if(multiple) {
-                file.attr('multiple', 'multiple');
-            }
-
-            //listen for clicks
-            container.click(function(e) {
-                if(e.target !== file[0]) {
-                    file.click();
-                }
-            });
-
-            var generate = function(file, name, width, height, display) {
-                var image = new Image();
-
-                //listen for when the src is set
-                image.onload = function() {
-                    //if no dimensions, get the natural dimensions
-                    width = width || this.width;
-                    height = height || this.height;
-
-                    //so we can crop
-                    $.cropper(file, width, height, function(data) {
-                        //create img and input tags
-                        $('<input type="hidden" />')
-                            .attr('name', name)
-                            .val(data)
-                            .appendTo(target);
-
-                        if(display) {
-                            $('<img />')
-                                .addClass(classes)
-                                .attr('alt', alt)
-                                .attr('src', data)
-                                .appendTo(target);
-                        }
-                    });
-                };
-
-                image.src = URL.createObjectURL(file);
-            };
-
-            file.change(function() {
-                if(!this.files || !this.files[0]) {
-                    return;
-                }
-
-                //remove all
-                $('input[type="hidden"], img', target).remove();
-
-                for(var i = 0; i < this.files.length; i++) {
-                    config.forEach(function(file, meta) {
-                        //expecting
-                        //  meta[label]
-                        //  meta[display]
-                        //  meta[width]
-                        //  meta[height]
-
-                        //make a path
-                        var path = '';
-
-                        if(meta.label !== false) {
-                            path = '[' + meta.label + ']';
-                        }
-
-                        if(multiple) {
-                            path = '[' + i + ']' + path;
-                        }
-
-                        path = name + path;
-
-                        generate(
-                            file,
-                            path,
-                            meta.width,
-                            meta.height,
-                            meta.display
-                        );
-                    }.bind(null, this.files[i]));
-                }
-            });
-        });
-
-        /**
          * File Field
          * HTML config for single files
          * data-do="file-field"
@@ -409,8 +225,44 @@ jQuery(function($) {
          * data-multiple="1"
          */
         $(window).on('file-field-init', function(e, target) {
+            var template = {
+                previewFile:
+                    '<div class="file-field-preview-container">'
+                    + '<i class="fas fa-file text-info"></i>'
+                    + '<span class="file-field-extension">{EXTENSION}</span>'
+                    + '</div>',
+                previewImage:
+                    '<div class="file-field-preview-container">'
+                    + '<img src="{DATA}" height="50" />'
+                    + '</div>',
+                row:
+                    '<tr class="file-field-item">'
+                    + '<td class="file-field-preview">{PREVIEW}</td>'
+                    + '<td class="file-field-name">{NAME}</td>'
+                    + '<td class="file-field-mime">{MIME}</td>'
+                    + '<td class="file-field-size">{SIZE}</td>'
+                    + '<td class="file-field-actions">'
+                        + '<a class="text-info file-field-move-up" href="javascript:void(0)">'
+                            + '<i class="fas fa-arrow-up"></i>'
+                        + '</a>'
+                        + '&nbsp;&nbsp;&nbsp;'
+                        + '<a class="text-info file-field-move-down" href="javascript:void(0)">'
+                            + '<i class="fas fa-arrow-down"></i>'
+                        + '</a>'
+                        + '&nbsp;&nbsp;&nbsp;'
+                        + '<a class="btn btn-danger file-field-remove" href="javascript:void(0)">'
+                            + '<i class="fas fa-times"></i>'
+                        + '</a>'
+                    + '</td>'
+                    + '</tr>'
+            };
+
             //current
             var container = $(target);
+            var body = $('tbody', container);
+            var foot = $('tfoot', container);
+
+            var noresults = $('tr.file-field-none', body);
 
             //get meta data
 
@@ -419,24 +271,95 @@ jQuery(function($) {
 
             //for file field
             var multiple = container.attr('data-multiple');
+            var accept = container.attr('data-accept') || false;
             var classes = container.attr('data-class');
+            var width = parseInt(container.attr('data-width') || 0);
+            var height = parseInt(container.attr('data-height') || 0);
 
             //make a file
-            var file = $('<input type="file" />').prependTo(target);
+            var file = $('<input type="file" />').hide();
 
             if(multiple) {
                 file.attr('multiple', 'multiple');
             }
 
-            var generate = function(file, name) {
+            if(accept) {
+                file.attr('accept', accept);
+            }
+
+            foot.append(file);
+
+            $('button.file-field-upload', container).click(function(e) {
+                file.click();
+            });
+
+            var listen = function(row, body) {
+                $('a.file-field-remove', row).click(function() {
+                    row.remove();
+                    if($('tr', body).length < 2) {
+                        noresults.show();
+                    }
+                });
+
+                $('a.file-field-move-up', row).click(function() {
+                    var prev = row.prev();
+
+                    if(prev.length && !prev.hasClass('file-field-none')) {
+                        prev.before(row);
+                    }
+                });
+
+                $('a.file-field-move-down', row).click(function() {
+                    var next = row.next();
+
+                    if(next.length) {
+                        next.after(row);
+                    }
+                });
+            };
+
+            var generate = function(file, name, width, height) {
                 var reader = new FileReader();
                 reader.readAsDataURL(file);
                 reader.onload = function () {
+                    var extension = file.name.split('.').pop();
+
+                    if(file.name.indexOf('.') === -1) {
+                        extension = '???';
+                    }
+
+                    var preview = template.previewFile.replace('{EXTENSION}', extension);
+
+                    if(file.type.indexOf('image/') === 0) {
+                        preview = template.previewImage.replace('{DATA}', reader.result);
+                    }
+
+                    noresults.hide();
+
+                    var row = $(
+                        template.row
+                            .replace('{PREVIEW}', preview)
+                            .replace('{NAME}', file.name)
+                            .replace('{MIME}', file.type)
+                            .replace('{SIZE}', file.size)
+                    ).appendTo(body);
+
                     //create input tags
-                    $('<input type="hidden" />')
+                    var hidden = $('<input type="hidden" />')
                         .attr('name', name)
-                        .val(reader.result)
-                        .appendTo(target);
+                        .val(reader.result);
+
+                    $('td.file-field-actions', row).append(hidden);
+
+                    listen(row, body);
+
+                    if(file.type.indexOf('image/') === 0 && (width !== 0 || height !== 0)) {
+                        //so we can crop
+                        $.cropper(file, width, height, function(data) {
+                            $('div.file-field-preview-container img', row).attr('src', data);
+                            hidden.val(data);
+                        });
+                    }
                 };
 
             };
@@ -451,13 +374,21 @@ jQuery(function($) {
 
                 for(var path = '', i = 0; i < this.files.length; i++, path = '') {
                     if(multiple) {
-                        path = '[' + i + ']' + path;
+                        path = '[]' + path;
                     }
 
                     path = name + path;
 
-                    generate(this.files[i], path);
+                    generate(this.files[i], path, width, height);
                 }
+            });
+
+            $('tr', body).each(function() {
+                if($(this).hasClass('file-field-none')) {
+                    return;
+                }
+
+                listen($(this), body)
             });
         });
 
