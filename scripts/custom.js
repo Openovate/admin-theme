@@ -52,6 +52,129 @@ jQuery(function($) {
      */
     (function() {
         /**
+         * Suggestion Field
+         */
+        $(window).on('suggestion-field-init', function(e, target) {
+            target = $(target);
+
+            var searching = false,
+                prevent = false,
+                label = target.attr('data-label'),
+                value = target.attr('data-value'),
+                url = target.attr('data-url')
+                template = '<li class="suggestion-item">{VALUE}</li>';
+
+            if(!label || !value || !url) {
+                return;
+            }
+
+            label = $(label);
+            value = $(value);
+
+            var loadSuggestions = function(list, callback) {
+                target.html('');
+
+                list.forEach(function(item) {
+                    var row = template.replace('{VALUE}', item.label);
+
+                    row = $(row).click(function() {
+                        callback(item);
+                        target.addClass('d-none');
+                    });
+
+                    target.append(row);
+                });
+
+                if(list.length) {
+                    target.removeClass('d-none');
+                } else {
+                    target.addClass('d-none');
+                }
+            };
+
+            label
+                .keypress(function(e) {
+                    if(e.keyCode == 13 && prevent) {
+                        e.preventDefault();
+                    }
+                })
+                .keydown(function(e) {
+                    prevent = false;
+                    if(!target.hasClass('d-none')) {
+                        switch(e.keyCode) {
+                            case 40: //down
+                                var next = $('li.hover', target).removeClass('hover').index() + 1;
+
+                                if(next === $('li', target).length) {
+                                    next = 0;
+                                }
+
+                                $('li:eq('+next+')', target).addClass('hover');
+
+                                return;
+                            case 38: //up
+                                var prev = $('li.hover', target).removeClass('hover').index() - 1;
+
+                                if(prev < 0) {
+                                    prev = $('li', target).length - 1;
+                                }
+
+                                $('li:eq('+prev+')', target).addClass('hover');
+
+                                return;
+                            case 13: //enter
+                                if($('li.hover', target).length) {
+                                    $('li.hover', target)[0].click();
+                                    prevent = true;
+                                }
+                                return;
+                            case 37:
+                            case 39:
+                                return;
+                        }
+                    }
+
+                    if(searching) {
+                        return;
+                    }
+
+                    setTimeout(function() {
+                        if (label.val() == '') {
+                            return;
+                        }
+
+                        searching = true;
+
+                        $.ajax({
+                            url : url.replace('{QUERY}', label.val()),
+                            type : 'GET',
+                            success : function(response) {
+                                var list = [];
+
+                                if(typeof response === 'string' || typeof response === 'number') {
+                                    response = [response];
+                                }
+
+                                if(response instanceof Array) {
+                                    response.forEach(function(item) {
+                                        list.push(item);
+                                    });
+                                }
+
+                                loadSuggestions(list, function(item) {
+                                    value.val(item.value);
+                                    label.val(item.label).trigger('keyup');
+                                });
+                                searching = false;
+                            }, error : function() {
+                                searching = false;
+                            }
+                        });
+                    }, 1);
+                });
+        });
+
+        /**
          * Tag Field
          */
         $(window).on('tag-field-init', function(e, target) {

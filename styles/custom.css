@@ -808,10 +808,14 @@ select.form-control {
 /* Field - Suggestion
 -----------------------------*/
 .input-suggestion {
-    position: absolute;
-    top: 44px;
-    width: 100%;
+    border: 1px solid #CED4DA;
     left: 0;
+    list-style: none;
+    background-color: #FFFFFF;
+    padding: 10px;
+    position: absolute;
+    top: 33px;
+    width: 100%;
 }
 
 .input-suggestion ul {

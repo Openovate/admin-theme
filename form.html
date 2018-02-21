@@ -578,6 +578,28 @@
                                 </label>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="suggestion_1" class="col-sm-2 col-form-label">Comment</label>
+                            <div class="col-sm-10">
+                                <input
+                                    class="form-control suggestion-label-1"
+                                    placeholder="John Doe"
+                                    type="text"
+                                />
+                                <input
+                                    class="suggestion-value-1"
+                                    name="suggestion_1"
+                                    type="hidden"
+                                />
+                                <ul
+                                    class="input-suggestion d-none"
+                                    data-do="suggestion-field"
+                                    data-label="input.suggestion-label-1"
+                                    data-value="input.suggestion-value-1"
+                                    data-url="./ajax.json?q={QUERY}"
+                                ></ul>
+                            </div>
+                        </div>
                     </div>
                     <div class="box-body box-light box-padding">
                         <button class="btn btn-primary">Submit</button>
