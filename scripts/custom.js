@@ -1,5 +1,53 @@
 jQuery(function($) {
     /**
+     * General Search
+     */
+    (function() {
+        /**
+         * Search filter more less toggle
+         */
+        $(window).on('search-filter-toggle-click', function(e, target) {
+            if($('i', target).hasClass('fa-caret-down')) {
+                $('i', target)
+                    .removeClass('fa-caret-down')
+                    .addClass('fa-caret-up');
+                $('span', target).html('less');
+            } else {
+                $('i', target)
+                    .removeClass('fa-caret-up')
+                    .addClass('fa-caret-down');
+                $('span', target).html('more');
+            }
+        });
+
+        /**
+         * Search table check all
+         */
+        $(window).on('table-checkall-init', function(e, trigger) {
+            var target = $(trigger).parents('table').eq(0);
+
+            $(trigger).click(function() {
+                if($(trigger).prop('checked')) {
+                    $('td input[type="checkbox"]', target).prop('checked', true);
+                } else {
+                    $('td input[type="checkbox"]', target).prop('checked', false);
+                }
+            });
+
+            $('td input[type="checkbox"]', target).click(function() {
+                var allChecked = true;
+                $('td input[type="checkbox"]', target).each(function() {
+                    if(!$(this).prop('checked')) {
+                        allChecked = false;
+                    }
+                });
+
+                $(trigger).prop('checked', allChecked);
+            });
+        });
+    })();
+
+    /**
      * General Forms
      */
     (function() {
