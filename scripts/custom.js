@@ -693,6 +693,16 @@ jQuery(function($) {
         });
 
         /**
+         * Markdown Editor -
+         */
+        $(window).on('simplemde-editor-init', function(e, target) {
+            target = $(target);
+
+            var simplemde = new SimpleMDE({ element: $("#markdown-editor")[0] });
+            simplemde.value("This text will appear in the editor");
+        });
+
+        /**
          * Multirange
          */
         $(window).on('multirange-field-init', function(e, target) {

@@ -26,6 +26,7 @@
     <link href="./styles/uncompressed/ion.css" rel="stylesheet" type="text/css" />
     <link href="./styles/uncompressed/toastr.css" rel="stylesheet" type="text/css" />
     <link href="./styles/uncompressed/flatpickr.css" rel="stylesheet" type="text/css" />
+    <link href="./styles/uncompressed/simplemde.min.css" rel="stylesheet" type="text/css" />
     <link href="./styles/custom.css" rel="stylesheet" type="text/css" />
 </head>
 <body class="admin-layout">
@@ -371,6 +372,15 @@
                         </div>
 
                         <div class="box">
+                            <div class="box-head box-inverse">
+                                <h3 class="box-title">Simplemde - Markdown Editor</h3>
+                            </div>
+                            <div class="box-body box-padding">
+                                <textarea id="markdown-editor" placeholder="Write about something" data-do="simplemde-editor" class="markdown-textarea hidden"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="box">
                             <div class="box-head box-grey">
                                 <h3 class="box-title">Selects</h3>
                             </div>
@@ -511,103 +521,6 @@
                                         <option value="WV">West Virginia</option>
                                     </optgroup>
                                 </select>
-                            </div>
-                        </div>
-
-                        <div class="box">
-                            <div class="box-head box-pink">
-                                <h3 class="box-title">Input Fields</h3>
-                            </div>
-                            <div class="box-body box-padding">
-                                <div class="row">
-                                    <div class="col-sm">
-                                        <h5>Mask Input</h5>
-                                        <div class="input-group mb-2 mr-sm-2">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">
-                                                    <i class="fas fa-phone"></i>
-                                                </div>
-                                            </div>
-                                            <input
-                                                class="form-control"
-                                                data-do="mask-field"
-                                                data-format="99-99-9999"
-                                                type="text"
-                                                placeholder="99-99-9999"
-                                            />
-                                        </div>
-
-                                        <h5>Tag Field</h5>
-                                        <div
-                                            class="tag-field"
-                                            data-do="tag-field"
-                                            data-name="foo"
-                                        >
-                                        </div>
-                                    </div>
-                                    <div class="col-sm">
-                                        <h5>Knobs and Dials</h5>
-                                        <input
-                                            type="text"
-                                            data-do="knob-field"
-                                            data-min="-50"
-                                            data-max="50"
-                                            data-width="75"
-                                            data-height="75"
-                                            value="0"
-                                        />
-
-                                        <input
-                                            type="text"
-                                            data-do="knob-field"
-                                            data-min="-50"
-                                            data-max="50"
-                                            data-width="75"
-                                            data-height="75"
-                                            data-cursor=true
-                                            data-thickness=.3
-                                            data-fgColor="#222222"
-                                            value="0"
-                                        />
-
-                                        <input
-                                            type="text"
-                                            data-do="knob-field"
-                                            data-min="-50"
-                                            data-max="50"
-                                            data-displayPrevious=true
-                                            data-width="75"
-                                            data-height="75"
-                                            value="0"
-                                        />
-
-                                        <input
-                                            type="text"
-                                            data-do="knob-field"
-                                            data-min="-50"
-                                            data-max="50"
-                                            data-fgColor="#66CC66"
-                                            data-angleOffset=-125
-                                            data-angleArc=250
-                                            data-rotation=anticlockwise
-                                            data-width="75"
-                                            data-height="75"
-                                            value="0"
-                                        />
-
-                                        <input
-                                            type="text"
-                                            data-do="knob-field"
-                                            data-min="-50"
-                                            data-max="50"
-                                            data-step="10"
-                                            data-width="75"
-                                            data-height="75"
-                                            value="0"
-                                        />
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
                     </div>
@@ -1123,6 +1036,103 @@
                                     type="text"
                                     value="1984-10-24 00:12:00 - 1984-10-25 00:12:00"
                                 />
+                            </div>
+                        </div>
+
+                        <div class="box">
+                            <div class="box-head box-pink">
+                                <h3 class="box-title">Input Fields</h3>
+                            </div>
+                            <div class="box-body box-padding">
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <h5>Mask Input</h5>
+                                        <div class="input-group mb-2 mr-sm-2">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fas fa-phone"></i>
+                                                </div>
+                                            </div>
+                                            <input
+                                                class="form-control"
+                                                data-do="mask-field"
+                                                data-format="99-99-9999"
+                                                type="text"
+                                                placeholder="99-99-9999"
+                                            />
+                                        </div>
+
+                                        <h5>Tag Field</h5>
+                                        <div
+                                            class="tag-field"
+                                            data-do="tag-field"
+                                            data-name="foo"
+                                        >
+                                        </div>
+                                    </div>
+                                    <div class="col-sm">
+                                        <h5>Knobs and Dials</h5>
+                                        <input
+                                            type="text"
+                                            data-do="knob-field"
+                                            data-min="-50"
+                                            data-max="50"
+                                            data-width="75"
+                                            data-height="75"
+                                            value="0"
+                                        />
+
+                                        <input
+                                            type="text"
+                                            data-do="knob-field"
+                                            data-min="-50"
+                                            data-max="50"
+                                            data-width="75"
+                                            data-height="75"
+                                            data-cursor=true
+                                            data-thickness=.3
+                                            data-fgColor="#222222"
+                                            value="0"
+                                        />
+
+                                        <input
+                                            type="text"
+                                            data-do="knob-field"
+                                            data-min="-50"
+                                            data-max="50"
+                                            data-displayPrevious=true
+                                            data-width="75"
+                                            data-height="75"
+                                            value="0"
+                                        />
+
+                                        <input
+                                            type="text"
+                                            data-do="knob-field"
+                                            data-min="-50"
+                                            data-max="50"
+                                            data-fgColor="#66CC66"
+                                            data-angleOffset=-125
+                                            data-angleArc=250
+                                            data-rotation=anticlockwise
+                                            data-width="75"
+                                            data-height="75"
+                                            value="0"
+                                        />
+
+                                        <input
+                                            type="text"
+                                            data-do="knob-field"
+                                            data-min="-50"
+                                            data-max="50"
+                                            data-step="10"
+                                            data-width="75"
+                                            data-height="75"
+                                            value="0"
+                                        />
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -1702,12 +1712,13 @@
     <script src="./scripts/uncompressed/mask.js" type="text/javascript"></script>
     <script src="./scripts/uncompressed/knob.js" type="text/javascript"></script>
     <script src="./scripts/uncompressed/ion.js" type="text/javascript"></script>
-    <script src="./scripts/uncompressed/codemirror.js" type="text/javascript"></script>
+
     <script src="./scripts/uncompressed/toastr.js" type="text/javascript"></script>
     <script src="./scripts/uncompressed/moment.js" type="text/javascript"></script>
     <script src="./scripts/uncompressed/cropper.js" type="text/javascript"></script>
     <script src="./scripts/uncompressed/ace.js" type="text/javascript"></script>
     <script src="./scripts/uncompressed/ace-static-highlight.js" type="text/javascript"></script>
+    <script src="./scripts/uncompressed/simplemde.min.js" type="text/javascript"></script>
     <script src="./scripts/uncompressed/wysihtml.js" type="text/javascript"></script>
     <script src="./scripts/uncompressed/wysihtml-commands.js" type="text/javascript"></script>
     <script src="./scripts/uncompressed/wysihtml-table.js" type="text/javascript"></script>
