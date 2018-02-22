@@ -17,6 +17,10 @@ body {
     border-radius: 0;
 }
 
+.form-control.date[readonly]{
+    background-color: #FFFFFF !important;
+}
+
 .form-group img {
     max-width: 100%;
 }

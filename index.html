@@ -27,6 +27,7 @@
     <link href="./styles/uncompressed/codemirror.css" rel="stylesheet" type="text/css" />
     <link href="./styles/uncompressed/toastr.css" rel="stylesheet" type="text/css" />
     <link href="./styles/custom.css" rel="stylesheet" type="text/css" />
+    <link href="./styles/flatpickr.min.css" rel="stylesheet" type="text/css" />
 </head>
 <body class="admin-layout">
     <header class="head" data-do="fixed-scroll">
@@ -1124,9 +1125,8 @@
                                 <input
                                     aria-haspopup="true"
                                     aria-expanded="false"
-                                    class="form-control"
+                                    class="form-control date"
                                     data-do="date-field"
-                                    data-date-format="yyyy-mm-dd"
                                     name="date_1"
                                     type="text"
                                     value="1984-10-24"
@@ -1134,7 +1134,7 @@
                                 <br />
                                 <h5>Time Field</h5>
                                 <input
-                                    class="form-control"
+                                    class="form-control date"
                                     data-do="time-field"
                                     name="date_1"
                                     type="text"
@@ -1143,7 +1143,7 @@
                                 <br />
                                 <h5>DateTime Field</h5>
                                 <input
-                                    class="form-control"
+                                    class="form-control date"
                                     data-do="datetime-field"
                                     name="date_1"
                                     type="text"
@@ -1152,7 +1152,7 @@
                                 <br />
                                 <h5>Date Range Field</h5>
                                 <input
-                                    class="form-control"
+                                    class="form-control date"
                                     data-do="date-range-field"
                                     name="date_1"
                                     type="text"
@@ -1161,7 +1161,7 @@
                                 <br />
                                 <h5>DateTime Range Field</h5>
                                 <input
-                                    class="form-control"
+                                    class="form-control date"
                                     data-do="datetime-range-field"
                                     name="date_1"
                                     type="text"
@@ -1755,6 +1755,7 @@
     <script src="./scripts/uncompressed/wysihtml-table.js" type="text/javascript"></script>
     <script src="./scripts/uncompressed/wysihtml-toolbar.js" type="text/javascript"></script>
     <script src="./scripts/uncompressed/wysihtml-parser.js" type="text/javascript"></script>
+    <script src="./scripts/flatpickr.min.js"></script>
 
     <script src="./scripts/custom.js" type="text/javascript"></script>
 </body>
