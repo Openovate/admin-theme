@@ -519,12 +519,80 @@ jQuery(function($) {
          * Direct CDN Upload
          */
         $(window).on('wysiwyg-init', function(e, target) {
-            var e = new wysihtml.Editor(target, {
-                toolbar:        $(target).prev()[0],
-                parserRules:    wysihtmlParserRules
-                //showToolbarAfterInit: false
-            });
+            var template = '<div class="wysiwyg-toolbar position-relative" style="display: none;">'
+                + '<div class="btn-group">'
+                    + '<a class="btn btn-default" data-wysihtml-command="bold" title="CTRL+B"><i class="fas fa-bold"></i></a>'
+                    + '<a class="btn btn-default" data-wysihtml-command="italic" title="CTRL+I"><i class="fas fa-italic"></i></a>'
+                    + '<a class="btn btn-default" data-wysihtml-command="underline" title="CTRL+U"><i class="fas fa-underline"></i></a>'
+                    + '<a class="btn btn-default" data-wysihtml-command="strike" title="CTRL+U"><i class="fas fa-strikethrough"></i></a>'
+                + '</div> '
+                + '<div class="btn-group">'
+                    + '<a class="btn btn-info" data-wysihtml-command="createLink"><i class="fas fa-external-link-alt"></i></a>'
+                    + '<a class="btn btn-danger" data-wysihtml-command="removeLink"><i class="fas fa-ban"></i></a>'
+                + '</div> '
+                + '<a class="btn btn-purple" data-wysihtml-command="insertImage"><i class="fas fa-image"></i></a> '
+                + '<div class="dropdown d-inline-block">'
+                    + '<button aria-haspopup="true" aria-expanded="false" class="btn btn-grey" data-toggle="dropdown" type="button">Headers <i class="fas fa-chevron-down"></i></button>'
+                    + '<div class="dropdown-menu">'
+                        + '<a class="dropdown-item" data-wysihtml-command="formatBlock" data-wysihtml-command-blank-value="true">Normal</a>'
+                        + '<a class="dropdown-item" data-wysihtml-command="formatBlock" data-wysihtml-command-value="h1">Header 1</a>'
+                        + '<a class="dropdown-item" data-wysihtml-command="formatBlock" data-wysihtml-command-value="h2">Header 2</a>'
+                        + '<a class="dropdown-item" data-wysihtml-command="formatBlock" data-wysihtml-command-value="h3">Header 3</a>'
+                        + '<a class="dropdown-item" data-wysihtml-command="formatBlock" data-wysihtml-command-value="h4">Header 4</a>'
+                        + '<a class="dropdown-item" data-wysihtml-command="formatBlock" data-wysihtml-command-value="h5">Header 5</a>'
+                        + '<a class="dropdown-item" data-wysihtml-command="formatBlock" data-wysihtml-command-value="h6">Header 6</a>'
+                    + '</div>'
+                + '</div> '
+                + '<div class="dropdown d-inline-block">'
+                    + '<button aria-haspopup="true" aria-expanded="false" class="btn btn-pink" data-toggle="dropdown" type="button">Colors <i class="fas fa-chevron-down"></i></button>'
+                    + '<div class="dropdown-menu">'
+                        + '<a class="dropdown-item text-danger" data-wysihtml-command="foreColor" data-wysihtml-command-value="red"><i class="fas fa-square-full"></i> Red</a>'
+                        + '<a class="dropdown-item text-success" data-wysihtml-command="foreColor" data-wysihtml-command-value="green"><i class="fas fa-square-full"></i> Green</a>'
+                        + '<a class="dropdown-item text-primary" data-wysihtml-command="foreColor" data-wysihtml-command-value="blue"><i class="fas fa-square-full"></i> Blue</a>'
+                        + '<a class="dropdown-item text-purple" data-wysihtml-command="foreColor" data-wysihtml-command-value="purple"><i class="fas fa-square-full"></i> Purple</a>'
+                        + '<a class="dropdown-item text-warning" data-wysihtml-command="foreColor" data-wysihtml-command-value="orange"><i class="fas fa-square-full"></i> Orange</a>'
+                        + '<a class="dropdown-item text-yellow" data-wysihtml-command="foreColor" data-wysihtml-command-value="yellow"><i class="fas fa-square-full"></i> Yellow</a>'
+                        + '<a class="dropdown-item text-pink" data-wysihtml-command="foreColor" data-wysihtml-command-value="pink"><i class="fas fa-square-full"></i> Pink</a>'
+                        + '<a class="dropdown-item text-white" data-wysihtml-command="foreColor" data-wysihtml-command-value="white"><i class="fas fa-square-full"></i> White</a>'
+                        + '<a class="dropdown-item text-inverse" data-wysihtml-command="foreColor" data-wysihtml-command-value="black"><i class="fas fa-square-full"></i> Black</a>'
+                    + '</div>'
+                + '</div> '
+                + '<div class="btn-group">'
+                    + '<a class="btn btn-default" data-wysihtml-command="insertUnorderedList"><i class="fas fa-list-ul"></i></a>'
+                    + '<a class="btn btn-default" data-wysihtml-command="insertOrderedList"><i class="fas fa-list-ol"></i></a>'
+                + '</div> '
+                + '<div class="btn-group">'
+                    + '<a class="btn btn-light" data-wysihtml-command="undo"><i class="fas fa-undo"></i></a><a class="btn btn-light" data-wysihtml-command="redo"><i class="fas fa-redo"></i></a>'
+                + '</div> '
+                + '<a class="btn btn-light" data-wysihtml-command="insertSpeech"><i class="fas fa-comments"></i></a> '
+                + '<a class="btn btn-inverse" data-wysihtml-action="change_view"><i class="fas fa-code"></i></a> '
+                + '<div class="wysiwyg-dialog" data-wysihtml-dialog="createLink" style="display: none;">'
+                    + '<input class="form-control" data-wysihtml-dialog-field="href" placeholder="http://" />'
+                    + '<input class="form-control mb-2" data-wysihtml-dialog-field="title" placeholder="Title" />'
+                    + '<a class="btn btn-primary" data-wysihtml-dialog-action="save" href="javascript:void(0)">OK</a>'
+                    + '<a class="btn btn-danger" data-wysihtml-dialog-action="cancel" href="javascript:void(0)">Cancel</a>'
+                + '</div>'
+                + '<div class="wysiwyg-dialog" data-wysihtml-dialog="insertImage" style="display: none;">'
+                    + '<input class="form-control" data-wysihtml-dialog-field="src" placeholder="http://">'
+                    + '<input class="form-control" data-wysihtml-dialog-field="alt" placeholder="alt">'
+                    + '<select class="form-control mb-2" data-wysihtml-dialog-field="className">'
+                        + '<option value="">None</option>'
+                        + '<option value="float-left">Left</option>'
+                        + '<option value="float-right">Right</option>'
+                    + '</select>'
+                    + '<a class="btn btn-primary" data-wysihtml-dialog-action="save" href="javascript:void(0)">OK</a>'
+                    + '<a class="btn btn-danger" data-wysihtml-dialog-action="cancel" href="javascript:void(0)">Cancel</a>'
+                + '</div>'
+            + '</div>';
 
+            var toolbar = $(template);
+            $(target).before(toolbar);
+
+            var e = new wysihtml.Editor(target, {
+                toolbar:        toolbar[0],
+                parserRules:    wysihtmlParserRules,
+                stylesheets:  '/styles/custom.css'
+            });
         });
 
         /**
@@ -662,31 +730,29 @@ jQuery(function($) {
          * Date Field
          */
         $(window).on('date-field-init', function(e, target) {
-            $(target).daterangepicker({
-                singleDatePicker: true,
-                locale: {
-                    format: 'YYYY-MM-DD'
-                }
+            $(target).flatpickr({
+                dateFormat: "Y-m-d",
             });
-
         });
 
         /**
          * Time Field
          */
-        $(window).on('time-field-init', function(e, target) {});
+        $(window).on('time-field-init', function(e, target) {
+            $(target).flatpickr({
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+            });
+        });
 
         /**
          * DateTime Field
          */
         $(window).on('datetime-field-init', function(e, target) {
-            $(target).daterangepicker({
-                timePicker: true,
-                timePickerSeconds: true,
-                singleDatePicker: true,
-                locale: {
-                    format: 'YYYY-MM-DD hh:mm:ss'
-                }
+            $(target).flatpickr({
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
             });
         });
 
@@ -694,18 +760,9 @@ jQuery(function($) {
          * Date Range Field
          */
         $(window).on('date-range-field-init', function(e, target) {
-            $(target).daterangepicker({
-                locale: {
-                    format: 'YYYY-MM-DD'
-                },
-                ranges: {
-                   'Today': [moment(), moment()],
-                   'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                   'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                   'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                   'This Month': [moment().startOf('month'), moment().endOf('month')],
-                   'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                }
+            $(target).flatpickr({
+                mode: "range",
+                dateFormat: "Y-m-d",
             });
         });
 
@@ -713,20 +770,10 @@ jQuery(function($) {
          * DateTime Range Field
          */
         $(window).on('datetime-range-field-init', function(e, target) {
-            $(target).daterangepicker({
-                timePicker: true,
-                timePickerSeconds: true,
-                locale: {
-                    format: 'YYYY-MM-DD hh:mm:ss'
-                },
-                ranges: {
-                   'Today': [moment(), moment()],
-                   'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                   'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                   'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                   'This Month': [moment().startOf('month'), moment().endOf('month')],
-                   'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                }
+            $(target).flatpickr({
+                mode: "range",
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
             });
         });
 
