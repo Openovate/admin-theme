@@ -668,19 +668,28 @@ jQuery(function($) {
         });
 
         /**
-         * Editor - Codemirror
+         * Code Editor - Ace
          */
-        $(window).on('codemirror-init', function(e, target) {
+        $(window).on('ace-editor-init', function(e, target) {
             target = $(target);
 
-            var code = $(".codemirror-textarea")[0];
-        	var editor = CodeMirror.fromTextArea(code, {
-        		lineNumbers : true,
-                mode:"xml",
-                htmlMode:true
-        	});
+            var editor = ace.edit("editor");
 
-            editor.setSize("100%",300);
+            editor.getSession().setMode("ace/mode/html");
+            editor.setTheme("ace/theme/chaos");
+            editor.setValue('<!DOCTYPE html> \n'+
+                '<html> \n'+
+                '\t<head> \n'+
+                '\t\t<title>Ace Editor</title> \n'+
+                '\t</head> \n'+
+                '\t<body> \n'+
+                '\t</body> \n'+
+                '</html>');
+            editor.getValue();
+
+            setInterval(function() {
+                $('#editor-raw').val(editor.getValue());
+            }, 200);
         });
 
         /**
