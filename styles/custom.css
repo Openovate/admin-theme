@@ -63,6 +63,61 @@ select.form-control {
     border-radius: 0;
 }
 
+
+/* Text
+------------------------------*/
+.text-default {
+    color: #ABBAC3 !important;
+}
+
+.text-primary {
+    color: #428BCA !important;
+}
+
+.text-info {
+    color: #6FB3E0 !important;
+}
+
+.text-warning {
+    color: #FFB752 !important;
+}
+
+.text-success {
+    color: #87B87F !important;
+}
+
+.text-danger {
+    color: #D15B47 !important;
+}
+
+.text-inverse {
+    color: #555555 !important;
+}
+
+.text-pink {
+    color: #D6487E !important;
+}
+
+.text-purple {
+    color: #9585BF !important;
+}
+
+.text-yellow {
+    color: #FEE188 !important;
+}
+
+.text-grey {
+    color: #A0A0A0 !important;
+}
+
+.text-light {
+    color: #E7E7E7 !important;
+}
+
+.text-white {
+    color: #F9F9F9 !important;
+}
+
 /* Field - Checkbox
 ------------------------------*/
 .checkbox input {
@@ -803,6 +858,63 @@ select.form-control {
 
 .multirange-field  .multirange-range::-ms-thumb {
   pointer-events: all;
+}
+
+/* WYSIWYG
+------------------------------*/
+.wysiwyg-color-blue {
+    color: #428BCA !important;
+}
+
+.wysiwyg-color-orange {
+    color: #FFB752 !important;
+}
+
+.wysiwyg-color-greed {
+    color: #87B87F !important;
+}
+
+.wysiwyg-color-red {
+    color: #D15B47 !important;
+}
+
+.wysiwyg-color-black {
+    color: #555555 !important;
+}
+
+.wysiwyg-color-pink {
+    color: #D6487E !important;
+}
+
+.wysiwyg-color-purple {
+    color: #9585BF !important;
+}
+
+.wysiwyg-color-yellow {
+    color: #FEE188 !important;
+}
+
+.wysiwyg-color-grey {
+    color: #A0A0A0 !important;
+}
+
+.wysiwyg-color-light {
+    color: #E7E7E7 !important;
+}
+
+.wysiwyg-color-white {
+    color: #F9F9F9 !important;
+}
+
+.wysiwyg-dialog {
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    margin: auto;
+    padding: 20px;
+    position: absolute;
+    text-align: center;
+    top: 34px;
+    width: 260px;
 }
 
 /* Field - Suggestion
