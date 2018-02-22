@@ -721,31 +721,29 @@ jQuery(function($) {
          * Date Field
          */
         $(window).on('date-field-init', function(e, target) {
-            $(target).daterangepicker({
-                singleDatePicker: true,
-                locale: {
-                    format: 'YYYY-MM-DD'
-                }
+            $(target).flatpickr({
+                dateFormat: "Y-m-d",
             });
-
         });
 
         /**
          * Time Field
          */
-        $(window).on('time-field-init', function(e, target) {});
+        $(window).on('time-field-init', function(e, target) {
+            $(target).flatpickr({
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+            });
+        });
 
         /**
          * DateTime Field
          */
         $(window).on('datetime-field-init', function(e, target) {
-            $(target).daterangepicker({
-                timePicker: true,
-                timePickerSeconds: true,
-                singleDatePicker: true,
-                locale: {
-                    format: 'YYYY-MM-DD hh:mm:ss'
-                }
+            $(target).flatpickr({
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
             });
         });
 
@@ -753,18 +751,9 @@ jQuery(function($) {
          * Date Range Field
          */
         $(window).on('date-range-field-init', function(e, target) {
-            $(target).daterangepicker({
-                locale: {
-                    format: 'YYYY-MM-DD'
-                },
-                ranges: {
-                   'Today': [moment(), moment()],
-                   'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                   'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                   'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                   'This Month': [moment().startOf('month'), moment().endOf('month')],
-                   'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                }
+            $(target).flatpickr({
+                mode: "range",
+                dateFormat: "Y-m-d",
             });
         });
 
@@ -772,20 +761,10 @@ jQuery(function($) {
          * DateTime Range Field
          */
         $(window).on('datetime-range-field-init', function(e, target) {
-            $(target).daterangepicker({
-                timePicker: true,
-                timePickerSeconds: true,
-                locale: {
-                    format: 'YYYY-MM-DD hh:mm:ss'
-                },
-                ranges: {
-                   'Today': [moment(), moment()],
-                   'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                   'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                   'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                   'This Month': [moment().startOf('month'), moment().endOf('month')],
-                   'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                }
+            $(target).flatpickr({
+                mode: "range",
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
             });
         });
 
