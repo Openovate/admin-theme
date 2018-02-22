@@ -10,6 +10,10 @@ body {
     font-weight: normal;
 }
 
+.hidden {
+    display: none;
+}
+
 /* Bootstrap
 ------------------------------*/
 
@@ -391,6 +395,13 @@ select.form-control {
     background-color: transparent;
     border-color: #CCCCCC;
     color: #CCCCCC;
+}
+
+/* Ace Editor
+------------------------------*/
+#editor {
+    font-size: 14px;
+    height: 250px;
 }
 
 /* Field - Switch
@@ -1020,10 +1031,6 @@ select.form-control {
 
 .box-light .nav-item .nav-link {
     color: #888888;
-}
-
-.box #editor {
-    height: 100px;
 }
 
 /* Head
