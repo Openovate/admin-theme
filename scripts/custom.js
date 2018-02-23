@@ -675,8 +675,12 @@ jQuery(function($) {
 
             var editor = ace.edit(target.attr('data-target'));
 
+            // set mode
             editor.getSession().setMode("ace/mode/html");
+            // set theme
             editor.setTheme("ace/theme/chaos");
+
+            // set editor default value
             editor.setValue('<!DOCTYPE html> \n'+
                 '<html> \n'+
                 '\t<head> \n'+
@@ -687,9 +691,8 @@ jQuery(function($) {
                 '</html>');
             editor.getValue();
 
-            setInterval(function() {
-                target.val(editor.getValue());
-            }, 200);
+            // set target value
+            target.val(editor.getValue());
         });
 
         /**
