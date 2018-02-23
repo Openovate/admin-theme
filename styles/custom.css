@@ -458,7 +458,7 @@ select.form-control {
 
 /* Ace Editor
 ------------------------------*/
-#editor {
+.ace-editor {
     font-size: 14px;
     height: 250px;
 }

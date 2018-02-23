@@ -673,7 +673,7 @@ jQuery(function($) {
         $(window).on('ace-editor-init', function(e, target) {
             target = $(target);
 
-            var editor = ace.edit("editor");
+            var editor = ace.edit(target.attr('data-target'));
 
             editor.getSession().setMode("ace/mode/html");
             editor.setTheme("ace/theme/chaos");
@@ -688,7 +688,7 @@ jQuery(function($) {
             editor.getValue();
 
             setInterval(function() {
-                $('#editor-raw').val(editor.getValue());
+                target.val(editor.getValue());
             }, 200);
         });
 
@@ -698,7 +698,7 @@ jQuery(function($) {
         $(window).on('simplemde-editor-init', function(e, target) {
             target = $(target);
 
-            var simplemde = new SimpleMDE({ element: $("#markdown-editor")[0] });
+            var simplemde = new SimpleMDE({ element: target[0] });
             simplemde.value("This text will appear in the editor");
         });
 
